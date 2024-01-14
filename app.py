@@ -27,10 +27,11 @@ if not os.path.exists(lora_path):
     os.system(f'wget https://civitai.com/api/download/models/152309?type=Model&format=SafeTensor -O {lora_path}')
     
 # global variable
-device = "cuda"
+device = "cuda" if torch.cuda.is_available() else "cpu"
 MAX_SEED = np.iinfo(np.int32).max
 STYLE_NAMES = list(styles.keys())
 DEFAULT_STYLE_NAME = "(No style)"
+
 # download PhotoMaker checkpoint to cache
 photomaker_ckpt = hf_hub_download(repo_id="TencentARC/PhotoMaker", filename="photomaker-v1.bin", repo_type="model")
 
