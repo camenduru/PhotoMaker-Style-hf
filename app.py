@@ -19,12 +19,12 @@ os.makedirs(civitai_model_path, exist_ok=True)
 base_model_name = "sdxlUnstableDiffusers_v11.safetensors"
 base_model_path = os.path.join(civitai_model_path, base_model_name)
 if not os.path.exists(base_model_path):
-    base_model_path = hf_hub_download(repo_id="Paper99/sdxlUnstableDiffusers_v11", filename="sdxlUnstableDiffusers_v11.safetensors", repo_type="model")
+    base_model_path = hf_hub_download(repo_id="Paper99/sdxlUnstableDiffusers_v11", filename=base_model_name, repo_type="model")
 
 lora_model_name = "xl_more_art-full.safetensors"
 lora_path = os.path.join(civitai_model_path, lora_model_name)
 if not os.path.exists(lora_path):
-    os.system(f'wget https://civitai.com/api/download/models/152309?type=Model&format=SafeTensor -O {lora_path}')
+    lora_path = hf_hub_download(repo_id="Paper99/sdxlUnstableDiffusers_v11", filename=lora_model_name, repo_type="model")
     
 # global variable
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -49,7 +49,7 @@ pipe.load_photomaker_adapter(
 )     
 
 pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
-pipe.load_lora_weights(os.path.dirname(lora_path), weight_name=os.path.basename(lora_path), adapter_name="xl_more_art-full")
+pipe.load_lora_weights(os.path.dirname(lora_path), weight_name=lora_model_name, adapter_name="xl_more_art-full")
 pipe.set_adapters(["photomaker", "xl_more_art-full"], adapter_weights=[1.0, 0.5])
 pipe.fuse_lora()
 
