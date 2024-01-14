@@ -123,16 +123,16 @@ def get_image_path_list(folder_name):
 def get_example():
     case = [
         [
-            get_image_path_list('./examples/scarletthead_woman'),
-            "instagram photo, portrait photo of a woman img, colorful, perfect face, natural skin, hard shadows, film grain",
-            "(No style)",
-            "(asymmetry, worst quality, low quality, illustration, 3d, 2d, painting, cartoons, sketch), open mouth",
+            get_image_path_list('./examples/yangmi_woman'),
+            "a woman img, retro futurism, retro game art style but extremely beautiful, intricate details, masterpiece, best quality, space-themed, cosmic, celestial, stars, galaxies, nebulas, planets, science fiction, highly detailed",
+            35,
+            "realistic, photo-realistic, worst quality, greyscale, bad anatomy, bad hands, error, text",
         ],
         [
-            get_image_path_list('./examples/newton_man'),
-            "sci-fi, closeup portrait photo of a man img wearing the sunglasses in Iron man suit, face, slim body, high quality, film grain",
-            "(No style)",
-            "(asymmetry, worst quality, low quality, illustration, 3d, 2d, painting, cartoons, sketch), open mouth",
+            get_image_path_list('./examples/lenna_woman'),
+            "A girl img riding dragon over a whimsical castle, 3d CGI, art by Pixar, half-body, screenshot from animation",
+            20,
+            "realistic, photo-realistic, bad quality, bad anatomy, worst quality, low quality, lowres, extra fingers, blur, blurry, ugly, wrong proportions, watermark, image artifacts, bad eyes",
         ],
     ]
     return case
@@ -215,7 +215,7 @@ with gr.Blocks(css=css) as demo:
             with gr.Column(visible=False) as clear_button:
                 remove_and_reupload = gr.ClearButton(value="Remove and upload new ones", components=files, size="sm")
             prompt = gr.Textbox(label="Prompt",
-                       info="Try something like 'a photo of a man/woman img' instead of 'A photo of a man/woman'",
+                       info="Try something like 'a photo of a man/woman img', 'img' is the trigger word.",
                        placeholder="A photo of a [man/woman img]...")
             style = gr.Dropdown(label="Style template", choices=STYLE_NAMES, value=DEFAULT_STYLE_NAME)
             submit = gr.Button("Submit")
@@ -245,7 +245,7 @@ with gr.Blocks(css=css) as demo:
                     minimum=1,
                     maximum=4,
                     step=1,
-                    value=4,
+                    value=2,
                 )
                 guidance_scale = gr.Slider(
                     label="Guidance scale",
@@ -286,7 +286,7 @@ with gr.Blocks(css=css) as demo:
 
     gr.Examples(
         examples=get_example(),
-        inputs=[files, prompt, style, negative_prompt],
+        inputs=[files, prompt, style_strength_ratio, negative_prompt],
         run_on_click=True,
         fn=upload_example_to_gallery,
         outputs=[uploaded_files, clear_button, files],
