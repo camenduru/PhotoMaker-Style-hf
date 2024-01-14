@@ -1,6 +1,6 @@
 ---
 title: PhotoMaker Style
-emoji: 🏆
+emoji: 📷 🎨
 colorFrom: indigo
 colorTo: red
 sdk: gradio
