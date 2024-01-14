@@ -19,7 +19,7 @@ os.makedirs(civitai_model_path, exist_ok=True)
 base_model_name = "sdxlUnstableDiffusers_v11.safetensors"
 base_model_path = os.path.join(civitai_model_path, base_model_name)
 if not os.path.exists(base_model_path):
-    os.system(f'wget https://civitai.com/api/download/models/276923 -O {model_path}')
+    os.system(f'wget https://civitai.com/api/download/models/276923 -O {base_model_path}')
 
 lora_model_name = "xl_more_art-full.safetensors"
 lora_path = os.path.join(civitai_model_path, lora_model_name)
