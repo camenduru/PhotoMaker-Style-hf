@@ -47,13 +47,14 @@ pipe.load_photomaker_adapter(
     weight_name=os.path.basename(photomaker_ckpt),
     trigger_word="img"
 )     
+pipe.id_encoder.to(device)
 
 pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
 pipe.load_lora_weights(os.path.dirname(lora_path), weight_name=lora_model_name, adapter_name="xl_more_art-full")
 pipe.set_adapters(["photomaker", "xl_more_art-full"], adapter_weights=[1.0, 0.5])
 pipe.fuse_lora()
 
-@spaces.GPU(enable_queue=True)
+@spaces.GPU
 def generate_image(upload_images, prompt, negative_prompt, style_name, num_steps, style_strength_ratio, num_outputs, guidance_scale, seed, progress=gr.Progress(track_tqdm=True)):
     # check the trigger word
     image_token_id = pipe.tokenizer.convert_tokens_to_ids(pipe.trigger_word)
